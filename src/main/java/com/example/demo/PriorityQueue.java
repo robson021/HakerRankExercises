@@ -1,12 +1,9 @@
 package com.example.demo;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
+
+// https://www.hackerrank.com/challenges/java-priority-queue/problem?isFullScreen=true
 class Student {
     private final int id;
 
@@ -49,13 +46,22 @@ class Student {
 }
 
 class Priorities {
-
     List<Student> getStudents(List<String> events) {
-        Comparator<Student> comparator = Comparator
-                .comparingDouble(Student::getCGPA)
-                .reversed();
+        Queue<Student> queue = new PriorityQueue<>((s1, s2) -> {
+            boolean samePoints = s1.getCGPA() == s2.getCGPA();
+            String name1 = s1.getName();
+            String name2 = s2.getName();
+            if (name1.equals(name2) && samePoints) {
+                int id1 = s1.getId();
+                int id2 = s2.getId();
 
-        Queue<Student> queue = new PriorityQueue<>(comparator);
+                return Integer.compare(id1, id2);
+            }
+            if (samePoints) {
+                return name1.compareTo(name2);
+            }
+            return -(Double.compare(s1.getCGPA(), s2.getCGPA()));
+        });
 
         for (String event : events) {
             if ("SERVED".equals(event) && !queue.isEmpty()) {
