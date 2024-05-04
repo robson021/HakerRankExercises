@@ -24,10 +24,13 @@ class PrioritiesTest {
                 "SERVED"
         );
         List<Student> students = new Priorities().getStudents(events);
+
+
         String collect = students
                 .stream()
                 .map(Student::getName)
                 .collect(Collectors.joining(",\n"));
+        System.out.println("\nResult:\n");
         System.out.println(collect);
     }
 
