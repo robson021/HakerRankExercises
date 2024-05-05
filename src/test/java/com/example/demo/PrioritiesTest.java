@@ -3,7 +3,9 @@ package com.example.demo;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 class PrioritiesTest {
 
@@ -26,12 +28,12 @@ class PrioritiesTest {
         List<Student> students = new Priorities().getStudents(events);
 
 
-        String collect = students
+        var result = students
                 .stream()
                 .map(Student::getName)
-                .collect(Collectors.joining(",\n"));
-        System.out.println("\nResult:\n");
-        System.out.println(collect);
+                .toList();
+
+        assertThat(result).containsExactly("Dan", "Ashley", "Shafaet", "Maria");
     }
 
 }
