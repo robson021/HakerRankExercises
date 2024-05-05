@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SubstringComparisonTest {
 
-
     @Test
     public void test() {
         String result = SubstringComparison.getSmallestAndLargest("welcometojava", 3);
