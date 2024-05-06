@@ -10,7 +10,7 @@ public class ContiguousSubarray {
 
         int n = in.nextInt();
         int m = in.nextInt();
-        int max = 0;
+        int currentMax = 0;
 
         Deque<Integer> deque = new ArrayDeque<>();
         Set<Integer> unique = new HashSet<>();
@@ -22,12 +22,16 @@ public class ContiguousSubarray {
             unique.add(num);
 
             if (deque.size() == m) {
-                max = Math.max(max, unique.size());
-                unique.remove(deque.pollFirst());
+                if (unique.size() > currentMax) {
+                    currentMax = unique.size();
+                }
+                Integer first = deque.pollFirst();
+                if (!deque.contains(first)) {
+                    unique.remove(first);
+                }
             }
-
         }
-        System.out.println(max);
+        System.out.println(currentMax);
     }
 
 }
