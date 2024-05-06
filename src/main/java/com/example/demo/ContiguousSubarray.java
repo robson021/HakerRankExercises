@@ -23,14 +23,16 @@ public class ContiguousSubarray {
 
     public static void main(String[] args) {
         TestIterator in = new TestIterator(INPUT.iterator());
-//        Scanner in = new Scanner(System.in);
-
-
         int n = 100;
         int m = 45;
 
+
+//        Scanner in = new Scanner(System.in);
+
+
         int maxUnique = 0;
-        int[] counter = new int[10_000_000];
+
+        Map<Integer, Integer> counter = new HashMap<>();
 
         Deque<Integer> deque = new ArrayDeque<>(m);
 
@@ -46,31 +48,29 @@ public class ContiguousSubarray {
 
             if (firstCheck) {
                 for (int number : deque) {
-                    counter[number]++;
+                    counter.compute(number, (k, v) -> (v == null) ? 1 : ++v);
                 }
                 firstCheck = false;
                 i--;
             } else {
                 int num = in.nextInt();
                 deque.addLast(num);
-                counter[num]++;
+                counter.compute(num, (k, v) -> (v == null) ? 1 : ++v);
             }
             maxUnique = Math.max(maxUnique, checkCounter(counter));
             int first = deque.removeFirst();
-            counter[first]--;
+            counter.compute(first, (k, v) -> (v == null) ? 0 : --v);
+
         }
 
         System.out.println(maxUnique);
 
     }
 
-    private static int checkCounter(int[] counter) {
-        int c = 0;
-        for (int i : counter) {
-            if (i == 1) {
-                c++;
-            }
-        }
-        return c;
+    private static int checkCounter(Map<Integer, Integer> counter) {
+        return (int) counter.entrySet()
+                .stream()
+                .filter(e -> e.getValue() == 1)
+                .count();
     }
 }
